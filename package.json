@@ -30,17 +30,17 @@
     "uuid": "3.x.x"
   },
   "devDependencies": {
-    "ava": "0.21.0",
-    "coveralls": "^2.13.1",
-    "eslint": "4.4.1",
+    "ava": "0.22.0",
+    "coveralls": "3.0.0",
+    "eslint": "4.8.0",
     "git-changelog": "1.1.2",
-    "nyc": "11.1.0",
-    "prettier": "1.5.3",
-    "sinon": "3.2.0"
+    "nyc": "11.2.1",
+    "prettier": "1.7.4",
+    "sinon": "4.0.1"
   },
   "scripts": {
-    "fmt": "prettier --print-width 140 --tab-width=4 --single-quote --bracket-spacing --no-semi --color --write index.js",
-    "check-fmt": "prettier --print-width 140 --tab-width=4 --single-quote --bracket-spacing --no-semi --list-different index.js",
+    "fmt": "prettier --print-width 140 --tab-width=4 --single-quote --bracket-spacing --no-semi --color --write \"{.,{test}/**/}/*.js\"",
+    "check-fmt": "prettier --print-width 140 --tab-width=4 --single-quote --bracket-spacing --no-semi --list-different \"{.,{test}/**/}/*.js\"",
     "test": "ava",
     "test-cover": "nyc ava",
     "coverage": "nyc report --reporter=text-lcov | coveralls",

@@ -144,7 +144,9 @@ of the namespace database to `debug`. You could then use :
 
 ### Outputs
 
-For now, the logger provides two output type: `pretty` and `json`, default is `json`.
+Logger outputs support multiple output. 
+We provide the `pretty` and `json` outputs and by default `json` is enabled
+You can enable multiple outputs at the same time
 
 #### JSON
 
@@ -153,7 +155,7 @@ For now, the logger provides two output type: `pretty` and `json`, default is `j
       
     logger.setNamespaces('namespace:*');
     logger.setLevel('debug');
-    //logger.setOutput('json');
+    //logger.setOutput(logger.output.json);
       
     const log = logger('namespace:subNamespace');
     log.debug('ctxId', 'Will be logged',{someData: 'someValue', someData2: 'someValue'});
@@ -169,16 +171,44 @@ Pretty will output a yaml like content.
 ``` js
     const logger = require('@ekino/logger')
       
-   logger.setNamespaces('namespace:*');
-   logger.setLevel('debug');
-   logger.setOutput('pretty');
+    logger.setNamespaces('namespace:*');
+    logger.setLevel('debug');
+    logger.setOutput(logger.output.pretty);
    
-   const log = logger('namespace:subNamespace');
-   log.debug('ctxId', 'Will be logged',{someData: 'someValue', someData2: 'someValue'});
+    const log = logger('namespace:subNamespace');
+    log.debug('ctxId', 'Will be logged',{someData: 'someValue', someData2: 'someValue'});
 ```
 output : 
 
 ![Example](docs/images/example_pretty.png)
+
+#### Output function
+An output, is just a function that will receive the log data and that should what it wants with it
+
+Log data follow the format : 
+```
+{
+    meta: {time: Date, level: string, namespace: string, contextId: string, ... any other data defined in global context},
+    message: string,
+    data: object
+}
+```
+
+``` js
+   const logger = require('@ekino/logger')
+      
+   logger.setNamespaces('namespace:*');
+   logger.setLevel('debug');
+   
+   function consoleOutput(output) {
+      console.log('Output : ', output)     
+   }
+   
+   logger.setOutput([logger.output.pretty, consoleOutput]);
+   
+   const log = logger('namespace:subNamespace');
+   log.debug('ctxId', 'Will be logged',{someData: 'someValue', someData2: 'someValue'});
+```
 
 ### Log data
 
