@@ -186,6 +186,7 @@ test('A logger should support defining a global context', t => {
     t.is(parsedObject.service, 'logger')
     t.is(parsedObject.mode, 'testing')
     t.is(parsedObject.message, 'test')
+    t.is(parsedObject.severity, parsedObject.level)
     t.is(secondCall, '\n')
 
     process.stdout.write.restore()
