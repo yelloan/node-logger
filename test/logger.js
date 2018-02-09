@@ -193,6 +193,41 @@ test('A logger should support defining a global context', t => {
     timersStub.restore()
 })
 
+test('A logger should support defining a global context', t => {
+    logger.setNamespaces('test:*')
+    logger.setLevel('info')
+    logger.setGlobalContext({ service: 'logger', mode: 'testing' })
+
+    const now = new Date()
+
+    const log = logger('test:global:context')
+    const spy = sinon.spy(process.stdout, 'write')
+    const timersStub = sinon.useFakeTimers(now.getTime())
+
+    log.warn('ctxId', 'test', {
+        severity: 'critical'
+    })
+
+    t.true(spy.calledTwice)
+
+    const firstCall = spy.firstCall.args[0]
+    const secondCall = spy.secondCall.args[0]
+    const parsedObject = JSON.parse(firstCall)
+
+    t.is(parsedObject.namespace, 'test:global:context')
+    t.is(parsedObject.level, 'warn')
+    t.is(parsedObject.time, now.toISOString())
+    t.is(parsedObject.contextId, 'ctxId')
+    t.is(parsedObject.service, 'logger')
+    t.is(parsedObject.mode, 'testing')
+    t.is(parsedObject.message, 'test')
+    t.is(parsedObject.severity, 'critical')
+    t.is(secondCall, '\n')
+
+    process.stdout.write.restore()
+    timersStub.restore()
+})
+
 test('A logger contextId arg should be an an optional argument', t => {
     logger.setNamespaces('ns1:*')
     logger.setLevel('info')
