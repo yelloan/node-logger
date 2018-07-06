@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "lodash": "4.x.x",
-    "prettyoutput": "1.x.x",
+    "prettyoutput": "https://github.com/ccoeurderoy/prettyoutput.git#4a9b08d252e28ec621d24b63db83941d55cf1a05",
     "uuid": "3.x.x"
   },
   "devDependencies": {
